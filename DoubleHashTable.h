@@ -110,7 +110,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
         if(array_state[iniProbe] == OCCUPIED && array[iniProbe] == obj){
             return true;
         }else{
-            iniProbe += h2(obj);
+            iniProbe += h2(obj); //apply h2 function for finding corresponding probe
             while(iniProbe >= array_size){
                 iniProbe -= array_size;
             }
@@ -130,8 +130,8 @@ T DoubleHashTable<T >::bin( int n ) const {
 
 template<typename T >
 void DoubleHashTable<T >::insert( T const &obj ) {
-    if(count == array_size){
-        overflow ex;
+    if(count >= array_size){
+        overflow ex; //to check if the hash table is full
         throw ex;
         return;
     }
@@ -139,7 +139,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     while(array_state[iniProbe] != EMPTY) //keeping executing h2 until getting an empty probe
     {
         iniProbe += h2(obj);
-        while(iniProbe >= array_size){
+        while(iniProbe >= array_size){ //apply h2 function for finding valid probe
             iniProbe -= array_size;
         }
     }
@@ -159,7 +159,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
             count -= 1;
             return true;
         }else{
-            iniProbe += h2(obj);
+            iniProbe += h2(obj); //apply h2 function for finding corresponding probe
             while(iniProbe >= array_size){
                 iniProbe -= array_size;
             }
@@ -170,7 +170,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
 
 template<typename T >
 void DoubleHashTable<T >::clear() {
-    delete [] array_state; //re-initialize arrays to clear data
+    delete [] array_state; //re-initialize arrays and counter to clear data
     array_state = new state[array_size];
     delete [] array;
     array = new T[array_size];
