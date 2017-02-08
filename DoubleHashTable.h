@@ -94,6 +94,7 @@ template<typename T >
 int DoubleHashTable<T >::h2( T const &obj ) const {
 	int objInInt = static_cast<int>(obj);
     objInInt /= array_size;
+    objInInt %= array_size;
 	while(objInInt < 0){
         objInInt += array_size; //add array_size back when reaches negative
 	}
@@ -136,7 +137,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
         return;
     }
     int iniProbe = h1(obj);
-    while(array_state[iniProbe] != EMPTY) //keeping executing h2 until getting an empty probe
+    while(array_state[iniProbe] != EMPTY && array_state[iniProbe] != DELETED) //keeping executing h2 until getting an valid probe
     {
         iniProbe += h2(obj);
         while(iniProbe >= array_size){ //apply h2 function for finding valid probe
@@ -154,8 +155,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
     int iniProbe = h1(obj);
     for(int i = 0; i < array_size * 2; i++){ //check for 2 array_size times
         if(array_state[iniProbe] == OCCUPIED && array[iniProbe] == obj){
-            array_state[iniProbe] = EMPTY; //set state to empty to remove item
-            array[iniProbe] = 0;
+            array_state[iniProbe] = DELETED; //set state to empty to remove item
             count -= 1;
             return true;
         }else{
@@ -182,7 +182,7 @@ template<typename T >
 void DoubleHashTable<T >::print() const {
     if(array_size > 0){
         for(int i = 0; i < array_size; i++){
-            if(array_state[i] != EMPTY){
+            if(array_state[i] != EMPTY && array_state[i] != DELETED){
                 std::cout << "item " << i << ": " << array[i] << std::endl;
             }
         }
