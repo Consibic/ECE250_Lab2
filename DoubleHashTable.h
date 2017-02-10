@@ -107,7 +107,7 @@ int DoubleHashTable<T >::h2( T const &obj ) const {
 template<typename T >
 bool DoubleHashTable<T >::member( T const &obj ) const {
 	int iniProbe = h1(obj);
-	for(int i = 0; i < array_size * 2; i++){ //check for 2 array_size times
+	for(int i = 0; i < array_size; i++){ //check for array_size times
         if(array_state[iniProbe] == OCCUPIED && array[iniProbe] == obj){
             return true;
         }else{
@@ -155,7 +155,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
 template<typename T >
 bool DoubleHashTable<T >::remove( T const &obj ) {
     int iniProbe = h1(obj);
-    for(int i = 0; i < array_size * 2; i++){ //check for 2 array_size times
+    for(int i = 0; i < array_size; i++){ //check for array_size times
         if(array_state[iniProbe] == OCCUPIED && array[iniProbe] == obj){
             array_state[iniProbe] = DELETED; //set state to empty to remove item
             count -= 1;
