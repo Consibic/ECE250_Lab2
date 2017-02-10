@@ -112,6 +112,7 @@ bool DoubleHashTable<T >::member( T const &obj ) const {
             return true;
         }else{
             iniProbe += h2(obj); //apply h2 function for finding corresponding probe
+            iniProbe %= array_size;
             while(iniProbe >= array_size){
                 iniProbe -= array_size;
             }
@@ -140,6 +141,7 @@ void DoubleHashTable<T >::insert( T const &obj ) {
     while(array_state[iniProbe] != EMPTY && array_state[iniProbe] != DELETED) //keeping executing h2 until getting an valid probe
     {
         iniProbe += h2(obj);
+        iniProbe %= array_size;
         while(iniProbe >= array_size){ //apply h2 function for finding valid probe
             iniProbe -= array_size;
         }
@@ -160,6 +162,7 @@ bool DoubleHashTable<T >::remove( T const &obj ) {
             return true;
         }else{
             iniProbe += h2(obj); //apply h2 function for finding corresponding probe
+            iniProbe %= array_size;
             while(iniProbe >= array_size){
                 iniProbe -= array_size;
             }
